@@ -5,6 +5,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MainPage {
@@ -49,13 +50,22 @@ public class MainPage {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(popupPath)));
         if(!driver.findElement(By.xpath(popupPath)).isDisplayed()) { return false; }
         Alert alert = driver.switchTo().alert();
-        if (nameCell.getText() != name) { return false; }
-        if (email != "" && email != null) { if (emailCell.getText() != email) { return false; }}
-        if (genderCell.getText() != gender) { return false; }
-        if (mobileCell.getText() != mobile) { return false; }
-        if (hobbies != "" && hobbies != null) { if (hobbiesCell.getText() != hobbies) { return false; }}
-        if (address != "" && address != null) { if (addressCell.getText() != address) { return false; }}
-        if (stateAndCity != "" && stateAndCity != null) { return (stateAndCityCell.getText() != stateAndCity); }
+        HashMap<WebElement, String> toCompare = new HashMap<WebElement, String>(){{
+           put(nameCell, name);
+           put(emailCell, email);
+           put(genderCell, gender);
+           put(mobileCell, mobile);
+           put(hobbiesCell, hobbies);
+           put(addressCell, address);
+           put(stateAndCityCell, stateAndCity);
+        }};
+        for (WebElement cell : toCompare.keySet()) {
+            if (toCompare.get(cell) != null) {
+                if (toCompare.get(cell) != "") {
+                    if (cell.getText() != toCompare.get(cell)) { return false; }
+                }
+            }
+        }
         alert.accept();
         return true;
     }
