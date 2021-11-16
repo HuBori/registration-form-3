@@ -70,6 +70,12 @@ public class MainPage {
         return true;
     }
 
+    public void fillMandatoryFields() {
+        fillName(MandatoryFields.getFirstName(), MandatoryFields.getLastName());
+        pickGender(MandatoryFields.getGender());
+        fillMobile(MandatoryFields.getMobile());
+    }
+
     public void submit() {
         submitBtn.click();
     }
