@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.codeborne.selenide.Selenide.$;
@@ -137,11 +138,15 @@ public class MainPage {
         return mobileField;
     }
 
-    /*
-    public WebElement getHobbiesBoxes() {
-        return hobbiesBoxes;
+    public List<String> getHobbies() {
+        List<String> hobbies = new ArrayList<>();
+        for (WebElement hobby : hobbiesBoxes.findElements(By.xpath("/div[class='custom-control custom-checkbox custom-control-inline']"))) {
+            if (hobby.findElement(By.xpath("/child::input")).isSelected()) {
+                hobbies.add(hobby.findElement(By.xpath("/parent::div/label[class='custom-control-label']")).getText());
+            }
+        }
+        return hobbies;
     }
-    */
 
     public WebElement getAddressField() {
         return addressField;
