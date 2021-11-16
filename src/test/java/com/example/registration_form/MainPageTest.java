@@ -5,6 +5,8 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -28,8 +30,20 @@ public class MainPageTest {
         open(mainPage.getUrl());
     }
 
-    @Test
-    public void search() {
-        
+    @ParameterizedTest
+    @CsvFileSource(resources = "/mandatory.csv", numLinesToSkip = 1)
+    public void happyPath(String fName, String lName, String gender, String mobile) {
+        mainPage.fillName(fName, lName);
+        String fNameResult = mainPage.getFirstNameField().getText();
+        String lNameResult = mainPage.getFirstNameField().getText();
+        assertEquals(fName, fNameResult);
+        assertEquals(lName, lNameResult);
+        mainPage.pickGender(gender);
+        String genderResult = mainPage.getGender();
+        assertEquals(gender, genderResult);
+        mainPage.fillMobile(mobile);
+        String mobileResult = mainPage.getMobileField().getText();
+        assertEquals(mobile, mobileResult);
+        mainPage.submit();
     }
 }
