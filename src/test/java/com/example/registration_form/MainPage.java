@@ -123,13 +123,6 @@ public class MainPage {
         cityField.findElement(By.xpath("//div[text()='" + city + "']")).click();
     }
 
-    public void pickStateAndCity(int state, int city) {
-        pickOnlyState(state);
-        cityField.click();
-        List<WebElement> cities = cityField.findElements(By.xpath("//div[@class=' css-1uccc91-singleValue']"));
-        cities.get(city).click();
-    }
-
     public void pickOnlyState(int state) {
         stateField.click();
         List<WebElement> states = stateField.findElements(By.xpath("//div[@class=' css-1uccc91-singleValue']"));

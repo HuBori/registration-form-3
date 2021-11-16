@@ -46,6 +46,23 @@ public class MainPageTest {
     }
 
     @ParameterizedTest
+    @CsvFileSource(resources = "csv/valid.csv", numLinesToSkip = 1)
+    public void allValidData(String fName, String lName, String email, String gender, String mobile, String hobbies, String address, String state, String city) {
+        mainPage.fillName(fName, lName);
+        mainPage.fillEmail(email);
+        mainPage.pickGender(gender);
+        mainPage.fillMobile(mobile);
+        mainPage.pickHobbies(hobbies.split(", "));
+        mainPage.fillAddress(address);
+        mainPage.pickStateAndCity(state, city);
+
+        mainPage.submit();
+        String name = fName + " " + lName;
+        String stateAndCity = state + " " + city;
+        assertTrue(popup.validatePopup(name, email, gender, mobile, hobbies, address, stateAndCity));
+    }
+
+    @ParameterizedTest
     @CsvFileSource(resources = "csv/missingmandatory.csv", numLinesToSkip = 1)
     public void missingMandatory(String fName, String lName, String gender, String mobile) {
         mainPage.fillName(fName, lName);
@@ -54,6 +71,4 @@ public class MainPageTest {
         mainPage.submit();
         assertFalse(popup.validatePresent());
     }
-
-
 }
