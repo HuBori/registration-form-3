@@ -56,15 +56,15 @@ public class MainPage {
             case "1":
             case "m":
             case "male":
-                radioButton = driver.findElement(By.xpath(formPath + "/input[value='Male']"));
+                radioButton = genderFieldPath.findElement(By.xpath("/input[value='Male']"));
                 break;
             case "2":
             case "f":
             case "female":
-                radioButton = driver.findElement(By.xpath(formPath + "/input[value='Female']"));
+                radioButton = genderFieldPath.findElement(By.xpath("/input[value='Female']"));
                 break;
             default:
-                radioButton = driver.findElement(By.xpath(formPath + "/input[value='Other']"));
+                radioButton = genderFieldPath.findElement(By.xpath("/input[value='Other']"));
         }
         radioButton.findElement(By.xpath("parent::div")).click();
     }
@@ -124,9 +124,24 @@ public class MainPage {
         return emailField;
     }
 
+    public String getGender() {
+        for (WebElement gender : genderFieldPath.findElements(By.xpath("/input[name='gender']"))) {
+            if (gender.isSelected()) {
+                return gender.findElement(By.xpath("/parent::div/label[class='custom-control-label']")).getText();
+            }
+        }
+        return null;
+    }
+
     public WebElement getMobileField() {
         return mobileField;
     }
+
+    /*
+    public WebElement getHobbiesBoxes() {
+        return hobbiesBoxes;
+    }
+    */
 
     public WebElement getAddressField() {
         return addressField;
