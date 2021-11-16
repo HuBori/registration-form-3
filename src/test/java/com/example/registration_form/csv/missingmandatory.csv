@@ -1,0 +1,7 @@
+fName,lName,gender,mobile
+Valid,,1,0123456789
+,Name,1,0123456789
+Valid,Name,,0123456789
+Valid,Name,1,
+Valid,Name,1,0123456789
+,,,
