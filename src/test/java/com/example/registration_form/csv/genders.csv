@@ -1,4 +1,4 @@
-fName,lName,gender,mobile
-Valid,Name,Male,0123456789
-Valid,Name,Female,0123456789
-Valid,Name,Other,0123456789
+gender
+Male
+Female
+Other
