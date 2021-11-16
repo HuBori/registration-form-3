@@ -35,7 +35,7 @@ public class MainPageTest {
     public void happyPath(String fName, String lName, String gender, String mobile) {
         mainPage.fillName(fName, lName);
         String fNameResult = mainPage.getFirstNameField().getText();
-        String lNameResult = mainPage.getFirstNameField().getText();
+        String lNameResult = mainPage.getLastNameField().getText();
         assertEquals(fName, fNameResult);
         assertEquals(lName, lNameResult);
         mainPage.pickGender(gender);
