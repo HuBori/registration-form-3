@@ -5,7 +5,6 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -144,10 +143,6 @@ public class MainPage {
         return lastNameField.getText();
     }
 
-    public String getEmailField() {
-        return emailField.getText();
-    }
-
     public String getGender() {
         for (WebElement gender : genderFieldPath.findElements(By.xpath("//input[@name='gender']"))) {
             if (gender.isSelected()) {
@@ -159,27 +154,5 @@ public class MainPage {
 
     public String getMobile() {
         return mobileField.getText();
-    }
-
-    public List<String> getHobbies() {
-        List<String> hobbies = new ArrayList<>();
-        for (WebElement hobby : hobbiesBoxes.findElements(By.xpath("//div[@class='custom-control custom-checkbox custom-control-inline']"))) {
-            if (hobby.findElement(By.xpath("//child::input")).isSelected()) {
-                hobbies.add(hobby.findElement(By.xpath("//parent::div//label[@class='custom-control-label']")).getText());
-            }
-        }
-        return hobbies;
-    }
-
-    public String getAddress() {
-        return addressField.getText();
-    }
-
-    public String getState() {
-        return stateField.getText();
-    }
-
-    public String getCity() {
-        return cityField.getText();
     }
 }
