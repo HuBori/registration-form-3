@@ -111,4 +111,32 @@ public class MainPage {
     public static String getUrl() {
         return url;
     }
+
+    public WebElement getFirstNameField() {
+        return firstNameField;
+    }
+
+    public WebElement getLastNameField() {
+        return lastNameField;
+    }
+
+    public WebElement getEmailField() {
+        return emailField;
+    }
+
+    public WebElement getMobileField() {
+        return mobileField;
+    }
+
+    public WebElement getAddressField() {
+        return addressField;
+    }
+
+    public WebElement getStateField() {
+        return stateField;
+    }
+
+    public WebElement getCityField() {
+        return cityField;
+    }
 }
