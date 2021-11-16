@@ -97,19 +97,19 @@ public class MainPage {
 
     public void pickGender(String gender) {
         WebElement radioButton;
-        switch (gender.toLowerCase()) {
-            case "1":
-            case "m":
-            case "male":
+        switch (gender) {
+            case "Male":
                 radioButton = genderFieldPath.findElement(By.xpath("/input[@value='Male']"));
                 break;
-            case "2":
-            case "f":
-            case "female":
+            case "Female":
                 radioButton = genderFieldPath.findElement(By.xpath("/input[@value='Female']"));
                 break;
-            default:
+            case "Other":
                 radioButton = genderFieldPath.findElement(By.xpath("/input[@value='Other']"));
+                break;
+            default:
+                System.out.println("Invalid gender!");
+                return;
         }
         radioButton.findElement(By.xpath("parent::div")).click();
     }
@@ -118,13 +118,9 @@ public class MainPage {
         mobileField.sendKeys(mobileNumber);
     }
 
-    public void pickHobbies(String[] hobbies) { // TODO: do not use numbers, refactor it
-        boolean str = false;
-        if (hobbies.length > 0) {
-            str = hobbies[0].toLowerCase().matches("[a-z]+");
-        }
+    public void pickHobbies(String[] hobbies) {
         for (String hobby : hobbies) {
-            WebElement hobbyBox = hobbiesBoxes.findElement(By.xpath((str ? "/div[@class='custom-control custom-checkbox custom-control-inline']/input[text()='" : "/input[@value='") + hobby +"']"));
+            WebElement hobbyBox = hobbiesBoxes.findElement(By.xpath("/div[@class='custom-control custom-checkbox custom-control-inline']/input[text()='" + hobby +"']"));
             hobbyBox.click();
         }
     }
