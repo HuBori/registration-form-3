@@ -51,7 +51,7 @@ public class PopupWindow {
                 }
             }
             alert.accept();
-            return true;
+            return !validatePresent();
         }
         return false;
     }

@@ -52,12 +52,21 @@ public class MainPageTest {
     @CsvFileSource(resources = "csv/valid.csv", numLinesToSkip = 1)
     public void allValidData(String fName, String lName, String email, String gender, String mobile, String hobbies, String address, String state, String city) {
         mainPage.fillName(fName, lName);
+        assertEquals(fName, mainPage.getFirstName());
+        assertEquals(lName, mainPage.getLastName());
         mainPage.fillEmail(email);
+        assertEquals(email, mainPage.getEmailField());
         mainPage.pickGender(gender);
+        assertEquals(gender, mainPage.getGender());
         mainPage.fillMobile(mobile);
+        assertEquals(mobile, mainPage.getMobile());
         mainPage.pickHobbies(hobbies.split(", "));
+        assertEquals(Arrays.stream(hobbies.split(", ")).sorted(), mainPage.getHobbies());
         mainPage.fillAddress(address);
+        assertEquals(address, mainPage.getAddress());
         mainPage.pickStateAndCity(state, city);
+        assertEquals(state, mainPage.getState());
+        assertEquals(city, mainPage.getCity());
 
         mainPage.submit();
         String name = fName + " " + lName;
