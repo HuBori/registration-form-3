@@ -4,6 +4,9 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -79,5 +82,36 @@ public class MainPageTest {
         mainPage.fillName(fName, lName);
         mainPage.submit();
         assertFalse(popup.validatePresent());
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "csv/invalidmobile.csv", numLinesToSkip = 1)
+    public void invalidMobile(String mobile) {
+        mainPage.fillMandatoryFields();
+        mainPage.fillMobile(mobile);
+        mainPage.submit();
+        assertFalse(popup.validatePresent());
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "csv/genders.csv", numLinesToSkip = 1)
+    public void genders(String gender) {
+        mainPage.fillMandatoryFields();
+        mainPage.pickGender(gender);
+        assertEquals(gender, mainPage.getGender());
+        mainPage.submit();
+        assertTrue(popup.validatePopup("", "", gender, "", "", "", ""));
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "csv/hobbies.csv", numLinesToSkip = 1)
+    public void hobbies(String hobbies) {
+        mainPage.fillMandatoryFields();
+        mainPage.pickHobbies(hobbies.split(", "));
+        Stream<String> sortedHobbies = Arrays.stream(hobbies.split(", ")).sorted();
+        Stream<String> sortedResult = mainPage.getHobbies();
+        assertEquals(sortedHobbies, sortedResult);
+        mainPage.submit();
+        assertTrue(popup.validatePopup("", "", "", "", hobbies, "", ""));
     }
 }
