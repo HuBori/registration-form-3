@@ -71,4 +71,13 @@ public class MainPageTest {
         mainPage.submit();
         assertFalse(popup.validatePresent());
     }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "csv/invalidname.csv", numLinesToSkip = 1)
+    public void invalidName(String fName, String lName) {
+        mainPage.fillMandatoryFields();
+        mainPage.fillName(fName, lName);
+        mainPage.submit();
+        assertFalse(popup.validatePresent());
+    }
 }

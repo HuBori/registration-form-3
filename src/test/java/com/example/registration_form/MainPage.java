@@ -74,6 +74,10 @@ public class MainPage {
     }
 
     public void fillName(String firstName, String lastName) {
+        while (firstNameField.getText().length() > 0 || lastNameField.getText().length() > 0) {
+            firstNameField.sendKeys(Keys.BACK_SPACE);
+            lastNameField.sendKeys(Keys.BACK_SPACE);
+        }
         firstNameField.sendKeys(firstName);
         lastNameField.sendKeys(lastName);
     }
@@ -102,6 +106,7 @@ public class MainPage {
     }
 
     public void fillMobile(String mobileNumber) {
+        while (mobileField.getText().length() > 0) { mobileField.sendKeys(Keys.BACK_SPACE); }
         mobileField.sendKeys(mobileNumber);
     }
 
@@ -129,15 +134,7 @@ public class MainPage {
         states.get(state).click();
     }
 
-    public static String getUrl() {
-        return url;
-    }
-
     public WebDriver getWebDriver() { return driver; }
-
-    public String getForm() {
-        return formPath;
-    }
 
     public String getFirstName() {
         return firstNameField.getText();
