@@ -1,33 +1,27 @@
 package com.example.registration_form;
 
 import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.logevents.SelenideLogger;
-import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import static com.codeborne.selenide.Condition.*;
 import static org.junit.jupiter.api.Assertions.*;
-
-import static com.codeborne.selenide.Selenide.*;
 
 public class MainPageTest {
     private static MainPage mainPage;
+    private static ChromeDriver driver;
 
     @BeforeAll
     public static void setUpAll() {
         Configuration.startMaximized = true;
-        WebDriver driver = new ChromeDriver();
+        driver = new ChromeDriver();
         mainPage = new MainPage(driver);
     }
 
     @BeforeEach
     public void setUp() {
-        open(mainPage.getUrl());
+        driver.get(mainPage.getUrl());
     }
 
     @ParameterizedTest
@@ -44,6 +38,7 @@ public class MainPageTest {
         mainPage.fillMobile(mobile);
         String mobileResult = mainPage.getMobile();
         assertEquals(mobile, mobileResult);
-        mainPage.submit();
+        String name = fName + " " + lName;
+        assertTrue(mainPage.validatePopup(name,"",gender,mobile,"","",""));
     }
 }

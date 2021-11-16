@@ -1,24 +1,17 @@
 package com.example.registration_form;
 
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.SelenideElement;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$x;
 
 public class MainPage {
     private static String url = "https://demoqa.com/automation-practice-form";
     private WebDriver driver;
 
-    // Elements
+    // Elements on form
     private WebElement formPath = driver.findElement(By.xpath("//div[class='row']/div[class='col-12 mt-4 col-md-6']/div[class='practice-form-wrapper']/form[id='userForm']"));
     private WebElement nameFieldsPath = formPath.findElement(By.xpath("//div[id='userName-wrapper']/div[class='col-md-4 col-sm-6']"));
     private WebElement stateCityPath = formPath.findElement(By.xpath("//div[id='stateCity-wrapper']/div[class='col-md-4 col-sm-12']"));
@@ -34,8 +27,37 @@ public class MainPage {
     private WebElement cityField = stateCityPath.findElement(By.xpath(stateCityPath + "/div[id='city']/div[class=' css-1fhf3k1-control']/div[class=' css-1hwfws3']"));
     private WebElement submitBtn = formPath.findElement(By.xpath("//div[class='mt-4 justify-content-end row']/div[class='text-right col-md-2 col-sm-12']/button[id='submit']"));
 
+    // Elements on popup window
+    private String popupPath = "//div[class='modal-dialog modal-lg']";
+    private WebElement table = driver.findElement(By.xpath("//div[class='modal-content']/div[class='modal-body']/div[class='table-responsive']"));
+
+    private WebElement nameCell = table.findElement(By.xpath("//td[text()='Student Name']/following-sibling::td"));
+    private WebElement emailCell = table.findElement(By.xpath("//td[text()='Student Email\t']/following-sibling::td"));
+    private WebElement genderCell = table.findElement(By.xpath("//td[text()='Gender']/following-sibling::td"));
+    private WebElement mobileCell = table.findElement(By.xpath("//td[text()='Mobile']/following-sibling::td"));
+    private WebElement hobbiesCell = table.findElement(By.xpath("//td[text()='Hobbies']/following-sibling::td"));
+    private WebElement addressCell = table.findElement(By.xpath("//td[text()='Address']/following-sibling::td"));
+    private WebElement stateAndCityCell = table.findElement(By.xpath("//td[text()='State and City']/following-sibling::td"));
+
     public MainPage(WebDriver driver) {
         this.driver = driver;
+    }
+
+    public boolean validatePopup(String name, String email, String gender, String mobile, String hobbies, String address, String stateAndCity) {
+        submit();
+        WebDriverWait wait = new WebDriverWait(driver,10);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(popupPath)));
+        if(!driver.findElement(By.xpath(popupPath)).isDisplayed()) { return false; }
+        Alert alert = driver.switchTo().alert();
+        if (nameCell.getText() != name) { return false; }
+        if (email != "" && email != null) { if (emailCell.getText() != email) { return false; }}
+        if (genderCell.getText() != gender) { return false; }
+        if (mobileCell.getText() != mobile) { return false; }
+        if (hobbies != "" && hobbies != null) { if (hobbiesCell.getText() != hobbies) { return false; }}
+        if (address != "" && address != null) { if (addressCell.getText() != address) { return false; }}
+        if (stateAndCity != "" && stateAndCity != null) { return (stateAndCityCell.getText() != stateAndCity); }
+        alert.accept();
+        return true;
     }
 
     public void submit() {
