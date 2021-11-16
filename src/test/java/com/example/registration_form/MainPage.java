@@ -113,16 +113,16 @@ public class MainPage {
         return url;
     }
 
-    public WebElement getFirstNameField() {
-        return firstNameField;
+    public String getFirstName() {
+        return firstNameField.getText();
     }
 
-    public WebElement getLastNameField() {
-        return lastNameField;
+    public String getLastName() {
+        return lastNameField.getText();
     }
 
-    public WebElement getEmailField() {
-        return emailField;
+    public String getEmailField() {
+        return emailField.getText();
     }
 
     public String getGender() {
@@ -134,8 +134,8 @@ public class MainPage {
         return null;
     }
 
-    public WebElement getMobileField() {
-        return mobileField;
+    public String getMobile() {
+        return mobileField.getText();
     }
 
     public List<String> getHobbies() {
@@ -148,15 +148,15 @@ public class MainPage {
         return hobbies;
     }
 
-    public WebElement getAddressField() {
-        return addressField;
+    public String getAddress() {
+        return addressField.getText();
     }
 
-    public WebElement getStateField() {
-        return stateField;
+    public String getState() {
+        return stateField.getText();
     }
 
-    public WebElement getCityField() {
-        return cityField;
+    public String getCity() {
+        return cityField.getText();
     }
 }

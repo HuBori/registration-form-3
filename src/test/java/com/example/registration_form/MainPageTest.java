@@ -31,18 +31,18 @@ public class MainPageTest {
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "/mandatory.csv", numLinesToSkip = 1)
+    @CsvFileSource(resources = "csv/mandatory.csv", numLinesToSkip = 1)
     public void happyPath(String fName, String lName, String gender, String mobile) {
         mainPage.fillName(fName, lName);
-        String fNameResult = mainPage.getFirstNameField().getText();
-        String lNameResult = mainPage.getLastNameField().getText();
+        String fNameResult = mainPage.getFirstName();
+        String lNameResult = mainPage.getLastName();
         assertEquals(fName, fNameResult);
         assertEquals(lName, lNameResult);
         mainPage.pickGender(gender);
         String genderResult = mainPage.getGender();
         assertEquals(gender, genderResult);
         mainPage.fillMobile(mobile);
-        String mobileResult = mainPage.getMobileField().getText();
+        String mobileResult = mainPage.getMobile();
         assertEquals(mobile, mobileResult);
         mainPage.submit();
     }
