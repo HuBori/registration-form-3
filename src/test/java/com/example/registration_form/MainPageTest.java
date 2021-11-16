@@ -1,27 +1,28 @@
 package com.example.registration_form;
 
-import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 public class MainPageTest {
     private static MainPage mainPage;
-    private static ChromeDriver driver;
+    private static PopupWindow popup;
 
     @BeforeAll
     public static void setUpAll() {
-        Configuration.startMaximized = true;
-        driver = new ChromeDriver();
-        mainPage = new MainPage(driver);
+        mainPage = new MainPage();
+        popup = new PopupWindow(mainPage.getWebDriver());
     }
 
     @BeforeEach
     public void setUp() {
-        driver.get(mainPage.getUrl());
+        mainPage.openPage();
     }
 
     @ParameterizedTest
@@ -32,13 +33,18 @@ public class MainPageTest {
         String lNameResult = mainPage.getLastName();
         assertEquals(fName, fNameResult);
         assertEquals(lName, lNameResult);
+
         mainPage.pickGender(gender);
         String genderResult = mainPage.getGender();
         assertEquals(gender, genderResult);
+
         mainPage.fillMobile(mobile);
         String mobileResult = mainPage.getMobile();
         assertEquals(mobile, mobileResult);
+
+        mainPage.submit();
+
         String name = fName + " " + lName;
-        assertTrue(mainPage.validatePopup(name,"",gender,mobile,"","",""));
+        assertTrue(popup.validatePopup(name,"",gender,mobile,"","",""));
     }
 }
