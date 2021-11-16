@@ -3,9 +3,6 @@ package com.example.registration_form;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -47,4 +44,16 @@ public class MainPageTest {
         String name = fName + " " + lName;
         assertTrue(popup.validatePopup(name,"",gender,mobile,"","",""));
     }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "csv/missingmandatory.csv", numLinesToSkip = 1)
+    public void missingMandatory(String fName, String lName, String gender, String mobile) {
+        mainPage.fillName(fName, lName);
+        mainPage.pickGender(gender);
+        mainPage.fillMobile(mobile);
+        mainPage.submit();
+        assertFalse(popup.validatePresent());
+    }
+
+
 }

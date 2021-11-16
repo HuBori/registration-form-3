@@ -30,27 +30,35 @@ public class PopupWindow {
     }
 
     public boolean validatePopup(String name, String email, String gender, String mobile, String hobbies, String address, String stateAndCity) {
-        WebDriverWait wait = new WebDriverWait(driver,10);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(popupPath)));
-        if(!driver.findElement(By.xpath(popupPath)).isDisplayed()) { return false; }
-        Alert alert = driver.switchTo().alert();
-        HashMap<WebElement, String> toCompare = new HashMap<WebElement, String>(){{
-            put(nameCell, name);
-            put(emailCell, email);
-            put(genderCell, gender);
-            put(mobileCell, mobile);
-            put(hobbiesCell, hobbies);
-            put(addressCell, address);
-            put(stateAndCityCell, stateAndCity);
-        }};
-        for (WebElement cell : toCompare.keySet()) {
-            if (toCompare.get(cell) != null) {
-                if (toCompare.get(cell) != "") {
-                    if (cell.getText() != toCompare.get(cell)) { return false; }
+        if (validatePresent()) {
+            Alert alert = driver.switchTo().alert();
+            HashMap<WebElement, String> toCompare = new HashMap<WebElement, String>() {{
+                put(nameCell, name);
+                put(emailCell, email);
+                put(genderCell, gender);
+                put(mobileCell, mobile);
+                put(hobbiesCell, hobbies);
+                put(addressCell, address);
+                put(stateAndCityCell, stateAndCity);
+            }};
+            for (WebElement cell : toCompare.keySet()) {
+                if (toCompare.get(cell) != null) {
+                    if (toCompare.get(cell) != "") {
+                        if (cell.getText() != toCompare.get(cell)) {
+                            return false;
+                        }
+                    }
                 }
             }
+            alert.accept();
+            return true;
         }
-        alert.accept();
-        return true;
+        return false;
+    }
+
+    public boolean validatePresent() {
+        WebDriverWait wait = new WebDriverWait(driver,10);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(popupPath)));
+        return driver.findElement(By.xpath(popupPath)).isDisplayed();
     }
 }
