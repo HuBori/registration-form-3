@@ -114,4 +114,17 @@ public class MainPageTest {
         mainPage.submit();
         assertTrue(popup.validatePopup("", "", "", "", hobbies, "", ""));
     }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "csv/statecity.csv", numLinesToSkip = 1)
+    public void stateAndCity(String state, String city) {
+        mainPage.fillMandatoryFields();
+        assertEquals(state, mainPage.getState());
+        mainPage.pickStateAndCity(state, city);
+        assertEquals(city, mainPage.getCity());
+
+        mainPage.submit();
+        String stateCity = state + " " + city;
+        assertTrue(popup.validatePopup("", "", "", "", "", "", stateCity));
+    }
 }
