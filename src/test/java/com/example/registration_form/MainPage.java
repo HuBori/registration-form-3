@@ -14,7 +14,6 @@ import static com.codeborne.selenide.Selenide.open;
 
 public class MainPage {
     private static String url = "https:/demoqa.com/automation-practice-form";
-    private static String title = "ToolsQA";
     private WebDriver driver;
     private WebDriverWait wait;
 
@@ -29,8 +28,7 @@ public class MainPage {
         driver = WebDriverRunner.getWebDriver();
         wait = new WebDriverWait(driver, 100);
         closeAd();
-        WebElement form = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(formPath)));
-        this.form = form;
+        form = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(formPath)));
 
         nameFieldsPath = form.findElement(By.xpath("//div[@id='userName-wrapper']//div[@class='col-md-4 col-sm-6']"));
         stateCityPath = form.findElement(By.xpath("//div[@id='stateCity-wrapper']//div[@class='col-md-4 col-sm-12']"));
