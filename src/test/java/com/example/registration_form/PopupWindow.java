@@ -26,6 +26,7 @@ public class PopupWindow {
 
     public PopupWindow(WebDriver driver) {
         this.driver = driver;
+        driver.switchTo().alert();
         table = this.driver.findElement(By.xpath("//div[@class='modal-content']//div[@class='modal-body']//div[@class='table-responsive']"));
     }
 

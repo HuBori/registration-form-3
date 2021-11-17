@@ -13,13 +13,13 @@ import java.util.stream.Stream;
 import static com.codeborne.selenide.Selenide.open;
 
 public class MainPage {
-    private static String url = "https://demoqa.com//automation-practice-form";
+    private static String url = "https:/demoqa.com/automation-practice-form";
     private static String title = "ToolsQA";
     private WebDriver driver;
     private WebDriverWait wait;
 
     // Elements on form
-    private String formPath = "//form[@id='userForm']"; // TODO: problem to fix: element not found <- page does not load completely <- why?
+    private String formPath = "//form[@id='userForm']";
     private WebElement form, nameFieldsPath, stateCityPath;
     private WebElement firstNameField, lastNameField, emailField, genderFieldPath, mobileField, hobbiesBoxes, addressField, stateField, cityField;
     private WebElement submitBtn;
@@ -27,16 +27,10 @@ public class MainPage {
     public MainPage() {
         open(url);
         driver = WebDriverRunner.getWebDriver();
-        System.out.println("Driver initialised");
-        //driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        System.out.println("implicit wait set to 10 sec");
-        wait = new WebDriverWait(driver, 10);
-        //wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(formPath)));
-        form = driver.findElement(By.xpath(formPath));
-        System.out.println("Form element assigned"); // TODO: does not reach
+        wait = new WebDriverWait(driver, 100);
         closeAd();
-        System.out.println("Ad is closed");
+        WebElement form = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(formPath)));
+        this.form = form;
 
         nameFieldsPath = form.findElement(By.xpath("//div[@id='userName-wrapper']//div[@class='col-md-4 col-sm-6']"));
         stateCityPath = form.findElement(By.xpath("//div[@id='stateCity-wrapper']//div[@class='col-md-4 col-sm-12']"));
@@ -61,7 +55,8 @@ public class MainPage {
     }
 
     private void closeAd() {
-        driver.findElement(By.xpath("//a[@id='close-fixedban']")).click();
+        WebElement adCloseBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@id='close-fixedban']")));
+        adCloseBtn.click();
     }
 
     public void fillMandatoryFields() {

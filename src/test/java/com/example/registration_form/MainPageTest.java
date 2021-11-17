@@ -17,7 +17,6 @@ public class MainPageTest {
     @BeforeAll
     public static void setUpAll() {
         mainPage = new MainPage();
-        popup = new PopupWindow(mainPage.getWebDriver());
     }
 
     @BeforeEach
@@ -26,7 +25,7 @@ public class MainPageTest {
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "csv/mandatory.csv", numLinesToSkip = 1)
+    @CsvFileSource(resources = "com/example/registration_form/resources/mandatory.csv", numLinesToSkip = 1)
     public void happyPath(String fName, String lName, String gender, String mobile) {
         mainPage.fillName(fName, lName);
         String fNameResult = mainPage.getFirstName();
@@ -43,13 +42,14 @@ public class MainPageTest {
         assertEquals(mobile, mobileResult);
 
         mainPage.submit();
+        popup = new PopupWindow(mainPage.getWebDriver());
 
         String name = fName + " " + lName;
         assertTrue(popup.validatePopup(name,"",gender,mobile,"","",""));
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "csv/valid.csv", numLinesToSkip = 1)
+    @CsvFileSource(resources = "com/example/registration_form/resources/valid.csv", numLinesToSkip = 1)
     public void allValidData(String fName, String lName, String email, String gender, String mobile, String hobbies, String address, String state, String city) {
         mainPage.fillName(fName, lName);
         assertEquals(fName, mainPage.getFirstName());
@@ -69,51 +69,56 @@ public class MainPageTest {
         assertEquals(city, mainPage.getCity());
 
         mainPage.submit();
+        popup = new PopupWindow(mainPage.getWebDriver());
         String name = fName + " " + lName;
         String stateAndCity = state + " " + city;
         assertTrue(popup.validatePopup(name, email, gender, mobile, hobbies, address, stateAndCity));
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "csv/missingmandatory.csv", numLinesToSkip = 1)
+    @CsvFileSource(resources = "com/example/registration_form/resources/missingmandatory.csv", numLinesToSkip = 1)
     public void missingMandatory(String fName, String lName, String gender, String mobile) {
         mainPage.fillName(fName, lName);
         mainPage.pickGender(gender);
         mainPage.fillMobile(mobile);
         mainPage.submit();
+        popup = new PopupWindow(mainPage.getWebDriver());
         assertFalse(popup.validatePresent());
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "csv/invalidname.csv", numLinesToSkip = 1)
+    @CsvFileSource(resources = "com/example/registration_form/resources/invalidname.csv", numLinesToSkip = 1)
     public void invalidName(String fName, String lName) {
         mainPage.fillMandatoryFields();
         mainPage.fillName(fName, lName);
         mainPage.submit();
+        popup = new PopupWindow(mainPage.getWebDriver());
         assertFalse(popup.validatePresent());
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "csv/invalidmobile.csv", numLinesToSkip = 1)
+    @CsvFileSource(resources = "com/example/registration_form/resources/invalidmobile.csv", numLinesToSkip = 1)
     public void invalidMobile(String mobile) {
         mainPage.fillMandatoryFields();
         mainPage.fillMobile(mobile);
         mainPage.submit();
+        popup = new PopupWindow(mainPage.getWebDriver());
         assertFalse(popup.validatePresent());
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "csv/genders.csv", numLinesToSkip = 1)
+    @CsvFileSource(resources = "com/example/registration_form/resources/genders.csv", numLinesToSkip = 1)
     public void genders(String gender) {
         mainPage.fillMandatoryFields();
         mainPage.pickGender(gender);
         assertEquals(gender, mainPage.getGender());
         mainPage.submit();
+        popup = new PopupWindow(mainPage.getWebDriver());
         assertTrue(popup.validatePopup("", "", gender, "", "", "", ""));
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "csv/hobbies.csv", numLinesToSkip = 1)
+    @CsvFileSource(resources = "com/example/registration_form/resources/hobbies.csv", numLinesToSkip = 1)
     public void hobbies(String hobbies) {
         mainPage.fillMandatoryFields();
         mainPage.pickHobbies(hobbies.split(", "));
@@ -121,11 +126,12 @@ public class MainPageTest {
         Stream<String> sortedResult = mainPage.getHobbies();
         assertEquals(sortedHobbies, sortedResult);
         mainPage.submit();
+        popup = new PopupWindow(mainPage.getWebDriver());
         assertTrue(popup.validatePopup("", "", "", "", hobbies, "", ""));
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "csv/statecity.csv", numLinesToSkip = 1)
+    @CsvFileSource(resources = "com/example/registration_form/resources/statecity.csv", numLinesToSkip = 1)
     public void stateAndCity(String state, String city) {
         mainPage.fillMandatoryFields();
         assertEquals(state, mainPage.getState());
@@ -133,6 +139,7 @@ public class MainPageTest {
         assertEquals(city, mainPage.getCity());
 
         mainPage.submit();
+        popup = new PopupWindow(mainPage.getWebDriver());
         String stateCity = state + " " + city;
         assertTrue(popup.validatePopup("", "", "", "", "", "", stateCity));
     }
