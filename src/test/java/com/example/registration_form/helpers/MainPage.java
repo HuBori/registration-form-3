@@ -82,6 +82,8 @@ public class MainPage {
     }
 
     public void pickGender(String gender) {
+        if (gender.length() == 0) { return; } // handles empty source
+
         String radioButtonPath = genderFieldPath;
         WebElement radioButton;
         switch (gender) {
