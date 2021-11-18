@@ -19,30 +19,30 @@ public class MainPage {
 
     // Elements on form
     private String formPath = "//form[@id='userForm']";
-    private WebElement form, nameFieldsPath, stateCityPath;
-    private WebElement firstNameField, lastNameField, emailField, genderFieldPath, mobileField, hobbiesBoxes, addressField, stateField, cityField;
-    private WebElement submitBtn;
+    private String nameFieldsPath, stateCityPath;
+    private String firstNameFieldPath, lastNameFieldPath, emailFieldPath, genderFieldPath, mobileFieldPath, hobbiesBoxesPath, addressFieldPath, stateFieldPath, cityFieldPath;
+    private String submitBtnPath;
 
     public MainPage() {
         open(url);
         driver = WebDriverRunner.getWebDriver();
         wait = new WebDriverWait(driver, 100);
         closeAd();
-        form = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(formPath)));
+//        WebElement form = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(formPath)));
 
-        nameFieldsPath = form.findElement(By.xpath("//div[@id='userName-wrapper']//div[@class='col-md-4 col-sm-6']"));
-        stateCityPath = form.findElement(By.xpath("//div[@id='stateCity-wrapper']//div[@class='col-md-4 col-sm-12']"));
+        nameFieldsPath = "//div[@id='userName-wrapper']//div[@class='col-md-4 col-sm-6']";
+        stateCityPath = "//div[@id='stateCity-wrapper']//div[@class='col-md-4 col-sm-12']";
 
-        firstNameField = nameFieldsPath.findElement(By.xpath("//input[@id='firstName']"));
-        lastNameField = nameFieldsPath.findElement(By.xpath("//input[@id='lastName']"));
-        emailField = form.findElement(By.xpath("//input[@id='userEmail']"));
-        genderFieldPath = form.findElement(By.xpath("//div[@id='genterWrapper']//div[@class='col-md-9 col-sm-12']//div[@class='custom-control custom-radio custom-control-inline']"));
-        mobileField = form.findElement(By.xpath("//input[@id='userNumber']"));
-        hobbiesBoxes = form.findElement(By.xpath("//div[@id='hobbiesWrapper']//div[@class='col-md-9 col-sm-12']"));
-        addressField = form.findElement(By.xpath("//textarea[@id='currentAddress']"));
-        stateField = stateCityPath.findElement(By.xpath("//div[@id='state']//div[@class=' css-yk16xz-control']//div[@class=' css-1hwfws3']"));
-        cityField = stateCityPath.findElement(By.xpath("//div[@id='city']//div[@class=' css-1fhf3k1-control']//div[@class=' css-1hwfws3']"));
-        submitBtn = form.findElement(By.xpath("//button[@id='submit']"));
+        firstNameFieldPath = "//input[@id='firstName']";
+        lastNameFieldPath = "//input[@id='lastName']";
+        emailFieldPath = "//input[@id='userEmail']";
+        genderFieldPath = "//div[@id='genterWrapper']//div[@class='col-md-9 col-sm-12']//div[@class='custom-control custom-radio custom-control-inline']";
+        mobileFieldPath = "//input[@id='userNumber']";
+        hobbiesBoxesPath = "//div[@id='hobbiesWrapper']//div[@class='col-md-9 col-sm-12']";
+        addressFieldPath = "//textarea[@id='currentAddress']";
+        stateFieldPath = "//div[@id='state']//div[@class=' css-yk16xz-control']//div[@class=' css-1hwfws3']";
+        cityFieldPath = "//div[@id='city']//div[@class=' css-1fhf3k1-control']//div[@class=' css-1hwfws3']";
+        submitBtnPath = "//button[@id='submit']";
     }
 
     public void openPage() {
@@ -64,86 +64,96 @@ public class MainPage {
     }
 
     public void submit() {
+        WebElement submitBtn = driver.findElement(By.xpath(submitBtnPath));
         submitBtn.click();
     }
 
     public void fillName(String firstName, String lastName) {
-        while (firstNameField.getText().length() > 0 || lastNameField.getText().length() > 0) {
-            firstNameField.sendKeys(Keys.BACK_SPACE);
-            lastNameField.sendKeys(Keys.BACK_SPACE);
+        WebElement firstNameField = driver.findElement(By.xpath(firstNameFieldPath));
+        fillOneName(firstNameField, firstName);
+        WebElement lastNameField = driver.findElement(By.xpath(lastNameFieldPath));
+        fillOneName(lastNameField, lastName);
+    }
+
+    private void fillOneName(WebElement field, String value) {
+        while (field.getText().length() > 0) {
+            field.sendKeys(Keys.BACK_SPACE);
         }
-        firstNameField.sendKeys(firstName);
-        lastNameField.sendKeys(lastName);
+        field.sendKeys(value);
     }
 
     public void fillEmail(String email) {
-        emailField.sendKeys(email);
+        driver.findElement(By.xpath(emailFieldPath)).sendKeys(email);
     }
 
     public void pickGender(String gender) {
         WebElement radioButton;
         switch (gender) {
-            case "Male":
-                radioButton = genderFieldPath.findElement(By.xpath("//input[@value='Male']"));
-                break;
-            case "Female":
-                radioButton = genderFieldPath.findElement(By.xpath("//input[@value='Female']"));
-                break;
-            case "Other":
-                radioButton = genderFieldPath.findElement(By.xpath("//input[@value='Other']"));
-                break;
-            default:
-                System.out.println("Invalid gender!");
-                return;
+            case "Male": radioButton = driver.findElement(By.xpath(genderFieldPath + "//input[@value='Male']"));break;
+            case "Female": radioButton = driver.findElement(By.xpath(genderFieldPath + "//input[@value='Female']"));break;
+            case "Other": radioButton = driver.findElement(By.xpath(genderFieldPath + "//input[@value='Other']"));break;
+            default: System.out.println("Invalid gender!");return;
         }
         radioButton.findElement(By.xpath("//parent::div")).click();
     }
 
     public void fillMobile(String mobileNumber) {
+        WebElement mobileField = driver.findElement(By.xpath(mobileFieldPath));
         while (mobileField.getText().length() > 0) { mobileField.sendKeys(Keys.BACK_SPACE); }
         mobileField.sendKeys(mobileNumber);
     }
 
     public void pickHobbies(String[] hobbies) {
         for (String hobby : hobbies) {
-            WebElement hobbyBox = hobbiesBoxes.findElement(By.xpath("//div[@class='custom-control custom-checkbox custom-control-inline']//input[text()='" + hobby +"']"));
+            WebElement hobbyBox = driver.findElement(By.xpath(hobbiesBoxesPath + "//div[@class='custom-control custom-checkbox custom-control-inline']//input[text()='" + hobby +"']"));
             hobbyBox.click();
         }
     }
 
     public void fillAddress(String address) {
-        addressField.sendKeys(address);
+        driver.findElement(By.xpath(addressFieldPath)).sendKeys(address);
     }
 
     public void pickStateAndCity(String state, String city) {
+        WebElement stateField = driver.findElement(By.xpath(stateFieldPath));
         stateField.sendKeys(state);
         stateField.findElement(By.xpath("//div[text()='" + state + "']")).click();
+
+        WebElement cityField = driver.findElement(By.xpath(cityFieldPath));
         cityField.sendKeys(city);
         cityField.findElement(By.xpath("//div[text()='" + city + "']")).click();
     }
 
-    public void pickOnlyState(int state) {
+    public void pickOnlyState(int state) { // TODO: write test
+        WebElement stateField = driver.findElement(By.xpath(stateFieldPath));
         stateField.click();
         List<WebElement> states = stateField.findElements(By.xpath("//div[@class=' css-1uccc91-singleValue']"));
         states.get(state).click();
     }
 
+    public void pickOnlyCity(int city) { // TODO: write test
+        WebElement cityField = driver.findElement(By.xpath(cityFieldPath));
+        cityField.click();
+        List<WebElement> states = cityField.findElements(By.xpath("//div[@class=' css-1uccc91-singleValue']"));
+        states.get(city).click();
+    }
+
     public WebDriver getWebDriver() { return driver; }
 
     public String getFirstName() {
-        return firstNameField.getText();
+        return driver.findElement(By.xpath(firstNameFieldPath)).getText();
     }
 
     public String getLastName() {
-        return lastNameField.getText();
+        return driver.findElement(By.xpath(lastNameFieldPath)).getText();
     }
 
     public String getEmailField() {
-        return emailField.getText();
+        return driver.findElement(By.xpath(emailFieldPath)).getText();
     }
 
     public String getGender() {
-        for (WebElement gender : genderFieldPath.findElements(By.xpath("//input[@name='gender']"))) {
+        for (WebElement gender : driver.findElements(By.xpath(genderFieldPath + "//input[@name='gender']"))) {
             if (gender.isSelected()) {
                 return gender.findElement(By.xpath("//parent::div//label[@class='custom-control-label']")).getText();
             }
@@ -152,12 +162,12 @@ public class MainPage {
     }
 
     public String getMobile() {
-        return mobileField.getText();
+        return driver.findElement(By.xpath(mobileFieldPath)).getText();
     }
 
     public Stream<String> getHobbies() {
         List<String> hobbies = new ArrayList<>();
-        for (WebElement hobby : hobbiesBoxes.findElements(By.xpath("//div[@class='custom-control custom-checkbox custom-control-inline']"))) {
+        for (WebElement hobby : driver.findElements(By.xpath(hobbiesBoxesPath + "//div[@class='custom-control custom-checkbox custom-control-inline']"))) {
             if (hobby.findElement(By.xpath("//child::input")).isSelected()) {
                 hobbies.add(hobby.findElement(By.xpath("//parent::div//label[@class='custom-control-label']")).getText());
             }
@@ -166,14 +176,14 @@ public class MainPage {
     }
 
     public String getAddress() {
-        return addressField.getText();
+        return driver.findElement(By.xpath(addressFieldPath)).getText();
     }
 
     public String getState() {
-        return stateField.getText();
+        return driver.findElement(By.xpath(stateFieldPath)).getText();
     }
 
     public String getCity() {
-        return cityField.getText();
+        return driver.findElement(By.xpath(cityFieldPath)).getText();
     }
 }
