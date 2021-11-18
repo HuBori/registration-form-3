@@ -1,5 +1,7 @@
-package com.example.registration_form;
+package com.example.registration_form.tests;
 
+import com.example.registration_form.helpers.MainPage;
+import com.example.registration_form.helpers.PopupWindow;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,5 +1,7 @@
-package com.example.registration_form;
+package com.example.registration_form.tests;
 
+import com.example.registration_form.helpers.MainPage;
+import com.example.registration_form.helpers.PopupWindow;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;

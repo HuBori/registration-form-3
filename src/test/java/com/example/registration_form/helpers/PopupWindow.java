@@ -1,4 +1,4 @@
-package com.example.registration_form;
+package com.example.registration_form.helpers;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

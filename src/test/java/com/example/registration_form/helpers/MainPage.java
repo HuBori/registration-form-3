@@ -1,4 +1,4 @@
-package com.example.registration_form;
+package com.example.registration_form.helpers;
 
 import com.codeborne.selenide.WebDriverRunner;
 import org.openqa.selenium.*;

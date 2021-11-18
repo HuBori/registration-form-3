@@ -1,4 +1,4 @@
-package com.example.registration_form;
+package com.example.registration_form.helpers;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
