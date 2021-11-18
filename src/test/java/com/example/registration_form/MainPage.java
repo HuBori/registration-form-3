@@ -7,41 +7,39 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 import static com.codeborne.selenide.Selenide.open;
 
 public class MainPage {
-    private static String url = "https:/demoqa.com/automation-practice-form";
-    private WebDriver driver;
+    private static final String url = "https:/demoqa.com/automation-practice-form";
+    private final WebDriver driver;
     private WebDriverWait wait;
 
     // Elements on form
-    private String formPath = "//form[@id='userForm']";
-    private String nameFieldsPath, stateCityPath;
-    private String firstNameFieldPath, lastNameFieldPath, emailFieldPath, genderFieldPath, mobileFieldPath, hobbiesBoxesPath, addressFieldPath, stateFieldPath, cityFieldPath;
-    private String submitBtnPath;
+    private static final String formPath = "//form[@id='userForm']";
+    private final String firstNameFieldPath, lastNameFieldPath, emailFieldPath, genderFieldPath, mobileFieldPath, hobbiesBoxesPath, addressFieldPath, stateFieldPath, cityFieldPath;
+    private final String submitBtnPath;
 
     public MainPage() {
         open(url);
         driver = WebDriverRunner.getWebDriver();
-        wait = new WebDriverWait(driver, 100);
+        wait = new WebDriverWait(driver, 10);
         closeAd();
 //        WebElement form = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(formPath)));
 
-        nameFieldsPath = "//div[@id='userName-wrapper']//div[@class='col-md-4 col-sm-6']";
-        stateCityPath = "//div[@id='stateCity-wrapper']//div[@class='col-md-4 col-sm-12']";
+        String nameFieldsPath = "//div[@id='userName-wrapper']//div[@class='col-md-4 col-sm-6']";
+        String stateCityPath = "//div[@id='stateCity-wrapper']//div[@class='col-md-4 col-sm-12']";
 
-        firstNameFieldPath = "//input[@id='firstName']";
-        lastNameFieldPath = "//input[@id='lastName']";
+        firstNameFieldPath = nameFieldsPath + "//input[@id='firstName']";
+        lastNameFieldPath = nameFieldsPath + "//input[@id='lastName']";
         emailFieldPath = "//input[@id='userEmail']";
         genderFieldPath = "//div[@id='genterWrapper']//div[@class='col-md-9 col-sm-12']//div[@class='custom-control custom-radio custom-control-inline']";
         mobileFieldPath = "//input[@id='userNumber']";
         hobbiesBoxesPath = "//div[@id='hobbiesWrapper']//div[@class='col-md-9 col-sm-12']";
         addressFieldPath = "//textarea[@id='currentAddress']";
-        stateFieldPath = "//div[@id='state']//div[@class=' css-yk16xz-control']//div[@class=' css-1hwfws3']";
-        cityFieldPath = "//div[@id='city']//div[@class=' css-1fhf3k1-control']//div[@class=' css-1hwfws3']";
+        stateFieldPath = stateCityPath + "//div[@id='state']//div[@class=' css-yk16xz-control']//div[@class=' css-1hwfws3']";
+        cityFieldPath = stateCityPath + "//div[@id='city']//div[@class=' css-1fhf3k1-control']//div[@class=' css-1hwfws3']";
         submitBtnPath = "//button[@id='submit']";
     }
 
