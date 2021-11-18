@@ -3,8 +3,13 @@ package com.example.registration_form;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
 
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,9 +29,16 @@ public class MainPageTest {
         mainPage.openPage();
     }
 
-    @ParameterizedTest
-    @CsvFileSource(resources = "com/example/registration_form/resources/mandatory.csv", numLinesToSkip = 1)
-    public void happyPath(String fName, String lName, String gender, String mobile) {
+    //@ParameterizedTest
+    //@CsvFileSource(resources = "src/test/java/com/example/registration_form/resources/mandatory.csv", delimiter = ';', numLinesToSkip = 1)
+    //public void happyPath(String fName, String lName, String gender, String mobile) {
+    @Test
+    public void happyPath() {
+        String fName = "Valid";
+        String lName = "Name";
+        String gender = "Male";
+        String mobile = "0123456789";
+
         mainPage.fillName(fName, lName);
         String fNameResult = mainPage.getFirstName();
         String lNameResult = mainPage.getLastName();
@@ -50,6 +62,7 @@ public class MainPageTest {
 
     @ParameterizedTest
     @CsvFileSource(resources = "com/example/registration_form/resources/valid.csv", numLinesToSkip = 1)
+    //@CsvSource(value = {"Valid:Name:valid@email.com:Male:0123456789:Sports:Dummy str. 1.:Rajasthan:Agra"}, delimiter = ':')
     public void allValidData(String fName, String lName, String email, String gender, String mobile, String hobbies, String address, String state, String city) {
         mainPage.fillName(fName, lName);
         assertEquals(fName, mainPage.getFirstName());
@@ -76,6 +89,7 @@ public class MainPageTest {
     }
 
     @ParameterizedTest
+    @NullAndEmptySource
     @CsvFileSource(resources = "com/example/registration_form/resources/missingmandatory.csv", numLinesToSkip = 1)
     public void missingMandatory(String fName, String lName, String gender, String mobile) {
         mainPage.fillName(fName, lName);
@@ -142,5 +156,40 @@ public class MainPageTest {
         popup = new PopupWindow(mainPage.getWebDriver());
         String stateCity = state + " " + city;
         assertTrue(popup.validatePopup("", "", "", "", "", "", stateCity));
+    }
+
+    @Test
+    public void testCsvFiles() {
+        List<String> pathes = new ArrayList<String>() {{
+            add("src/test/java/com/example/registration_form/resources/mandatory.csv");
+            add("/src/test/java/com/example/registration_form/resources/mandatory.csv");
+            add("com/example/registration_form/resources/mandatory.csv");
+            add("/com/example/registration_form/resources/mandatory.csv");
+            add("/mandatory.csv");
+            add("mandatory.csv");
+            add("src\\test\\java\\com\\example\\registration_form\\resources\\mandatory.csv");
+            add("\\src\\test\\java\\com\\example\\registration_form\\resources\\mandatory.csv");
+            add("com\\example\\registration_form\\resources\\mandatory.csv");
+            add("\\com\\example\\registration_form\\resources\\mandatory.csv");
+            add("\\mandatory.csv");
+        }};
+        for (String path : pathes) {
+            File f = new File(path);
+            if (f.exists() && !f.isDirectory()) {
+                System.out.println("Valid path:\n\t" + path);
+                List<List<String>> records = new ArrayList<>();
+                try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        String[] values = line.split(",");
+                        records.add(Arrays.asList(values));
+                    }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }
