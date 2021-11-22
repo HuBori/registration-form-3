@@ -31,19 +31,15 @@ public class SmokeTests {
         String fNameResult = mainPage.getFirstName();
         String lNameResult = mainPage.getLastName();
         assertEquals(fName, fNameResult);
-        System.out.println("INFO: Successfully filled firstName");
         assertEquals(lName, lNameResult);
-        System.out.println("INFO: Successfully filled lastName");
 
         mainPage.pickGender(gender);
         String genderResult = mainPage.getGender();
         assertEquals(gender, genderResult);
-        System.out.println("INFO: Successfully picked gender");
 
         mainPage.fillMobile(mobile);
         String mobileResult = mainPage.getMobile();
         assertEquals(mobile, mobileResult);
-        System.out.println("INFO: Successfully filled mobile");
 
         mainPage.submit();
         popup = new PopupWindow(mainPage.getWebDriver());
@@ -52,7 +48,6 @@ public class SmokeTests {
         assertTrue(popup.validatePopup(name,"",gender,mobile,"","",""));
         popup.close();
         assertTrue(popup.validatePresent(true));
-        System.out.println("INFO: All data is valid");
     }
 
     @ParameterizedTest
