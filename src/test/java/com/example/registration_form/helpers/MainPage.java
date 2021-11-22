@@ -26,17 +26,14 @@ public class MainPage {
         wait = new WebDriverWait(driver, 10);
         closeAd();
 
-        String nameFieldsPath = "//div[@id='userName-wrapper']//div[@class='col-md-4 col-sm-6']";
-        String stateCityPath = "//div[@id='stateCity-wrapper']//div[@class='col-md-4 col-sm-12']";
-
-        firstNameFieldPath = nameFieldsPath + "//input[@id='firstName']";
-        lastNameFieldPath = nameFieldsPath + "//input[@id='lastName']";
+        firstNameFieldPath = "//input[@id='firstName']";
+        lastNameFieldPath = "//input[@id='lastName']";
         emailFieldPath = "//input[@id='userEmail']";
         genderFieldPath = "//div[@id='genterWrapper']//div[@class='col-md-9 col-sm-12']//div[@class='custom-control custom-radio custom-control-inline']";
         mobileFieldPath = "//input[@id='userNumber']";
         addressFieldPath = "//textarea[@id='currentAddress']";
-        stateFieldPath = stateCityPath + "//div[@id='state']//div[@class=' css-yk16xz-control']//div[@class=' css-1hwfws3']";
-        cityFieldPath = stateCityPath + "//div[@id='city']//div[@class=' css-yk16xz-control']//div[@class=' css-1hwfws3']";
+        stateFieldPath = "//div[@id='state']//div[@class=' css-yk16xz-control']//div[@class=' css-1hwfws3']";
+        cityFieldPath = "//div[@id='city']//div[@class=' css-yk16xz-control']//div[@class=' css-1hwfws3']";
     }
 
     public void openPage() {

@@ -112,8 +112,8 @@ public class SmokeTests {
         List<String> pathes = new ArrayList<String>() {{
             add("src/test/java/com/example/registration_form/resources/mandatory.csv");
             add("/src/test/java/com/example/registration_form/resources/mandatory.csv");
-            add("com/example/registration_form/resources/mandatory.csv");
-            add("/com/example/registration_form/resources/mandatory.csv");
+            add("src/test/resources/mandatory.csv");
+            add("/src/test/resources/mandatory.csv");
             add("/mandatory.csv");
             add("mandatory.csv");
             add("src\\test\\java\\com\\example\\registration_form\\resources\\mandatory.csv");

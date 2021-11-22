@@ -5,15 +5,10 @@ import com.example.registration_form.helpers.PopupWindow;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
-import org.junit.jupiter.params.provider.NullAndEmptySource;
-
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 
 public class MainPageTest {
     private static MainPage mainPage;
@@ -30,9 +25,21 @@ public class MainPageTest {
     }
 
     @ParameterizedTest
-    @NullAndEmptySource
-    @CsvFileSource(resources = "com/example/registration_form/resources/missingmandatory.csv", numLinesToSkip = 1)
-    public void missingMandatory(String fName, String lName, String gender, String mobile) {
+    @ValueSource(strings = {
+            "Valid;;Male;0123456789",
+            ";Name;Male;0123456789",
+            "Valid;Name;;0123456789",
+            "Valid;Name;Male;",
+            "Valid;Name;Male;0123456789",
+            ";;;"
+    })
+    public void missingMandatory(String param) {
+        String[] values = param.split(";");
+        String fName = values[0];
+        String lName = values[1];
+        String gender = values[2];
+        String mobile = values[3];
+
         mainPage.fillName(fName, lName);
         mainPage.pickGender(gender);
         mainPage.fillMobile(mobile);
@@ -42,7 +49,7 @@ public class MainPageTest {
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "com/example/registration_form/resources/invalidname.csv", numLinesToSkip = 1)
+    @CsvFileSource(resources = "/invalidname.csv", numLinesToSkip = 1)
     public void invalidName(String fName, String lName) {
         mainPage.fillMandatoryFields();
         mainPage.fillName(fName, lName);
@@ -95,40 +102,5 @@ public class MainPageTest {
         popup = new PopupWindow(mainPage.getWebDriver());
         String stateCity = state + " " + city;
         assertTrue(popup.validatePopup("", "", "", "", "", "", stateCity));
-    }
-
-    @Test
-    public void testCsvFiles() {
-        List<String> pathes = new ArrayList<String>() {{
-            add("src/test/java/com/example/registration_form/resources/mandatory.csv");
-            add("/src/test/java/com/example/registration_form/resources/mandatory.csv");
-            add("com/example/registration_form/resources/mandatory.csv");
-            add("/com/example/registration_form/resources/mandatory.csv");
-            add("/mandatory.csv");
-            add("mandatory.csv");
-            add("src\\test\\java\\com\\example\\registration_form\\resources\\mandatory.csv");
-            add("\\src\\test\\java\\com\\example\\registration_form\\resources\\mandatory.csv");
-            add("com\\example\\registration_form\\resources\\mandatory.csv");
-            add("\\com\\example\\registration_form\\resources\\mandatory.csv");
-            add("\\mandatory.csv");
-        }};
-        for (String path : pathes) {
-            File f = new File(path);
-            if (f.exists() && !f.isDirectory()) {
-                System.out.println("Valid path:\n\t" + path);
-                List<List<String>> records = new ArrayList<>();
-                try (BufferedReader br = new BufferedReader(new FileReader(path))) {
-                    String line;
-                    while ((line = br.readLine()) != null) {
-                        String[] values = line.split(",");
-                        records.add(Arrays.asList(values));
-                    }
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 }
