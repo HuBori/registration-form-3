@@ -15,6 +15,7 @@ public class MainPage {
     private static final String url = "https:/demoqa.com/automation-practice-form";
     private final WebDriver driver;
     private WebDriverWait wait;
+    private MandatoryFields mandatory;
 
     // Elements on form
     private static final String formPath = "//form[@id='userForm']";
@@ -23,7 +24,7 @@ public class MainPage {
     public MainPage() {
         open(url);
         driver = WebDriverRunner.getWebDriver();
-        wait = new WebDriverWait(driver, 10);
+        wait = new WebDriverWait(driver, 3);
         closeAd();
 
         firstNameFieldPath = "//input[@id='firstName']";
@@ -34,6 +35,8 @@ public class MainPage {
         addressFieldPath = "//textarea[@id='currentAddress']";
         stateFieldPath = "//div[@id='state']//div[@class=' css-yk16xz-control']//div[@class=' css-1hwfws3']";
         cityFieldPath = "//div[@id='city']//div[@class=' css-yk16xz-control']//div[@class=' css-1hwfws3']";
+
+        mandatory = new MandatoryFields();
     }
 
     public void openPage() {
@@ -49,9 +52,9 @@ public class MainPage {
     }
 
     public void fillMandatoryFields() {
-        fillName(MandatoryFields.getFirstName(), MandatoryFields.getLastName());
-        pickGender(MandatoryFields.getGender());
-        fillMobile(MandatoryFields.getMobile());
+        fillName(mandatory.getFirstName(), mandatory.getLastName());
+        pickGender(mandatory.getGender());
+        fillMobile(mandatory.getMobile());
     }
 
     public void submit() {

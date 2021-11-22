@@ -5,11 +5,8 @@ import com.example.registration_form.helpers.PopupWindow;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -28,17 +25,9 @@ public class SmokeTests {
         mainPage.openPage();
     }
 
-    //@ParameterizedTest
-    //@CsvFileSource(resources = "src/test/java/com/example/registration_form/resources/mandatory.csv", delimiter = ';', numLinesToSkip = 1)
-    //public void happyPath(String fName, String lName, String gender, String mobile) {
-    @Test
-    //@CsvSource({"Valid,Name,Male,0123456789"})
-    public void happyPath() {
-        String fName = "Valid";
-        String lName = "Name";
-        String gender = "Male";
-        String mobile = "0123456789";
-
+    @ParameterizedTest
+    @CsvFileSource(resources = "/mandatory.csv", delimiter = ';', numLinesToSkip = 1)
+    public void happyPath(String fName, String lName, String gender, String mobile) {
         mainPage.fillName(fName, lName);
         String fNameResult = mainPage.getFirstName();
         String lNameResult = mainPage.getLastName();
@@ -63,26 +52,13 @@ public class SmokeTests {
         String name = fName + " " + lName;
         assertTrue(popup.validatePopup(name,"",gender,mobile,"","",""));
         popup.close();
-        assertTrue(popup.validatePresent());
+        assertTrue(popup.validatePresent(true));
         System.out.println("INFO: All data is valid");
     }
 
-    //@ParameterizedTest
-    //@CsvFileSource(resources = "com/example/registration_form/resources/valid.csv", numLinesToSkip = 1)
-    //@CsvSource(value = {"Valid:Name:valid@email.com:Male:0123456789:Sports:Dummy str. 1.:Rajasthan:Agra"}, delimiter = ':')
-    //public void allValidData(String fName, String lName, String email, String gender, String mobile, String hobbies, String address, String state, String city) {
-    @Test
-    public void allValidData() {
-        String fName = "Valid";
-        String lName = "Name";
-        String email = "valid@email.com";
-        String gender = "Male";
-        String mobile = "0123456789";
-        String hobbies = "Sports";
-        String address = "Dummy str. 1.";
-        String state = "Uttar Pradesh";
-        String city = "Agra";
-
+    @ParameterizedTest
+    @CsvFileSource(resources = "/valid.csv", numLinesToSkip = 1)
+    public void allValidData(String fName, String lName, String email, String gender, String mobile, String hobbies, String address, String state, String city) {
         mainPage.fillName(fName, lName);
         assertEquals(fName, mainPage.getFirstName());
         assertEquals(lName, mainPage.getLastName());
@@ -105,38 +81,5 @@ public class SmokeTests {
         String name = fName + " " + lName;
         String stateAndCity = state + " " + city;
         assertTrue(popup.validatePopup(name, email, gender, mobile, hobbies, address, stateAndCity));
-    }
-
-    //@Test
-    public void testCsvFiles() {
-        List<String> pathes = new ArrayList<String>() {{
-            add("src/test/java/com/example/registration_form/resources/mandatory.csv");
-            add("/src/test/java/com/example/registration_form/resources/mandatory.csv");
-            add("src/test/resources/mandatory.csv");
-            add("/src/test/resources/mandatory.csv");
-            add("/mandatory.csv");
-            add("mandatory.csv");
-            add("src\\test\\java\\com\\example\\registration_form\\resources\\mandatory.csv");
-            add("\\src\\test\\java\\com\\example\\registration_form\\resources\\mandatory.csv");
-            add("com\\example\\registration_form\\resources\\mandatory.csv");
-            add("\\com\\example\\registration_form\\resources\\mandatory.csv");
-            add("\\mandatory.csv");
-        }};
-        for (String path : pathes) {
-            File f = new File(path);
-            if (f.exists() && !f.isDirectory()) {
-                System.out.println("Valid path:\n\t" + path);
-                List<List<String>> records = new ArrayList<>();
-                try (BufferedReader br = new BufferedReader(new FileReader(path))) {
-                    String line;
-                    while ((line = br.readLine()) != null) {
-                        String[] values = line.split(",");
-                        records.add(Arrays.asList(values));
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 }

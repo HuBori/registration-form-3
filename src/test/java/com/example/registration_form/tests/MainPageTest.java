@@ -5,8 +5,6 @@ import com.example.registration_form.helpers.PopupWindow;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
-import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,14 +23,7 @@ public class MainPageTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {
-            "Valid;;Male;0123456789",
-            ";Name;Male;0123456789",
-            "Valid;Name;;0123456789",
-            "Valid;Name;Male;",
-            "Valid;Name;Male;0123456789",
-            ";;;"
-    })
+    @CsvFileSource(resources = "/missingmandatory.csv", numLinesToSkip = 1)
     public void missingMandatory(String param) {
         String[] values = param.split(";");
         String fName = values[0];
@@ -45,7 +36,7 @@ public class MainPageTest {
         mainPage.fillMobile(mobile);
         mainPage.submit();
         popup = new PopupWindow(mainPage.getWebDriver());
-        assertFalse(popup.validatePresent());
+        assertFalse(popup.validatePresent(false));
     }
 
     @ParameterizedTest
@@ -55,21 +46,21 @@ public class MainPageTest {
         mainPage.fillName(fName, lName);
         mainPage.submit();
         popup = new PopupWindow(mainPage.getWebDriver());
-        assertFalse(popup.validatePresent());
+        assertFalse(popup.validatePresent(false));
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "com/example/registration_form/resources/invalidmobile.csv", numLinesToSkip = 1)
+    @CsvFileSource(resources = "/invalidmobile.csv", numLinesToSkip = 1)
     public void invalidMobile(String mobile) {
         mainPage.fillMandatoryFields();
         mainPage.fillMobile(mobile);
         mainPage.submit();
         popup = new PopupWindow(mainPage.getWebDriver());
-        assertFalse(popup.validatePresent());
+        assertFalse(popup.validatePresent(false));
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "com/example/registration_form/resources/genders.csv", numLinesToSkip = 1)
+    @CsvFileSource(resources = "/genders.csv", numLinesToSkip = 1)
     public void genders(String gender) {
         mainPage.fillMandatoryFields();
         mainPage.pickGender(gender);
@@ -80,7 +71,7 @@ public class MainPageTest {
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "com/example/registration_form/resources/hobbies.csv", numLinesToSkip = 1)
+    @CsvFileSource(resources = "/hobbies.csv", numLinesToSkip = 1)
     public void hobbies(String hobbies) {
         mainPage.fillMandatoryFields();
         mainPage.pickHobbies(hobbies.split(", "));
@@ -91,7 +82,7 @@ public class MainPageTest {
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "com/example/registration_form/resources/statecity.csv", numLinesToSkip = 1)
+    @CsvFileSource(resources = "/statecity.csv", numLinesToSkip = 1)
     public void stateAndCity(String state, String city) {
         mainPage.fillMandatoryFields();
         assertEquals(state, mainPage.getState());

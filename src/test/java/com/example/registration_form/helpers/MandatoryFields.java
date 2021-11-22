@@ -9,26 +9,26 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MandatoryFields {
-    private static final String COMMA_DELIMITER = ",";
+    private static final String DELIMITER = ";";
     private static String firstName;
     private static String lastName;
     private static String gender;
     private static String mobile;
 
-    public static void readCsv() {
-        try (BufferedReader br = new BufferedReader(new FileReader("csv/mandatory.csv"))) {
+    public MandatoryFields() {
+        try (BufferedReader br = new BufferedReader(new FileReader("src/test/resources/mandatory.csv"))) {
 
             List<List<String>> result = new ArrayList<>();
             String line;
             while ((line = br.readLine()) != null) {
-                String[] values = line.split(COMMA_DELIMITER);
+                String[] values = line.split(DELIMITER);
                 result.add(Arrays.asList(values));
             }
 
-            firstName = result.get(0).get(0);
-            lastName = result.get(0).get(1);
-            gender = result.get(0).get(2);
-            mobile = result.get(0).get(3);
+            firstName = result.get(1).get(0);
+            lastName = result.get(1).get(1);
+            gender = result.get(1).get(2);
+            mobile = result.get(1).get(3);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -36,19 +36,19 @@ public class MandatoryFields {
         }
     }
 
-    public static String getFirstName() {
+    public String getFirstName() {
         return firstName;
     }
 
-    public static String getLastName() {
+    public String getLastName() {
         return lastName;
     }
 
-    public static String getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public static String getMobile() {
+    public String getMobile() {
         return mobile;
     }
 }
