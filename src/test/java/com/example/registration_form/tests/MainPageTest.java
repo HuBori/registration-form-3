@@ -23,20 +23,14 @@ public class MainPageTest {
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "/missingmandatory.csv", numLinesToSkip = 1)
-    public void missingMandatory(String param) {
-        String[] values = param.split(";");
-        String fName = values[0];
-        String lName = values[1];
-        String gender = values[2];
-        String mobile = values[3];
-
+    @CsvFileSource(resources = "/missingmandatory.csv", numLinesToSkip = 1, delimiter = ';')
+    public void missingMandatory(String fName, String lName, String gender, String mobile) {
         mainPage.fillName(fName, lName);
         mainPage.pickGender(gender);
         mainPage.fillMobile(mobile);
         mainPage.submit();
         popup = new PopupWindow(mainPage.getWebDriver());
-        assertFalse(popup.validatePresent(false));
+        assertTrue(popup.validatePresent(false));
     }
 
     @ParameterizedTest
@@ -46,7 +40,7 @@ public class MainPageTest {
         mainPage.fillName(fName, lName);
         mainPage.submit();
         popup = new PopupWindow(mainPage.getWebDriver());
-        assertFalse(popup.validatePresent(false));
+        assertTrue(popup.validatePresent(false));
     }
 
     @ParameterizedTest
@@ -56,7 +50,7 @@ public class MainPageTest {
         mainPage.fillMobile(mobile);
         mainPage.submit();
         popup = new PopupWindow(mainPage.getWebDriver());
-        assertFalse(popup.validatePresent(false));
+        assertTrue(popup.validatePresent(false));
     }
 
     @ParameterizedTest

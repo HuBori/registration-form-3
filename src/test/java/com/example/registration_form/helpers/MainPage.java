@@ -99,7 +99,7 @@ public class MainPage {
                 System.out.println("Invalid gender!");
                 return;
         }
-        radioButton = driver.findElement(By.xpath(radioButtonPath + "//parent::div"));
+        radioButton = driver.findElement(By.xpath(radioButtonPath + "/.."));
         radioButton.click();
     }
 
@@ -157,7 +157,7 @@ public class MainPage {
     public String getGender() {
         for (WebElement gender : driver.findElements(By.xpath(genderFieldPath + "//input[@name='gender']"))) {
             if (gender.isSelected()) {
-                return gender.findElement(By.xpath("//parent::div//label[@class='custom-control-label']")).getText();
+                return gender.findElement(By.xpath("//parent::div//label[@class='custom-control-label']")).getText(); // TODO: should fix it here
             }
         }
         return null;
