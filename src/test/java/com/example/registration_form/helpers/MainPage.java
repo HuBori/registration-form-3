@@ -6,7 +6,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.codeborne.selenide.Selenide.open;
@@ -14,8 +13,8 @@ import static com.codeborne.selenide.Selenide.open;
 public class MainPage {
     private static final String url = "https:/demoqa.com/automation-practice-form";
     private final WebDriver driver;
-    private WebDriverWait wait;
-    private MandatoryFields mandatory;
+    private final WebDriverWait wait;
+    private final MandatoryFields mandatory;
 
     // Elements on form
     private static final String formPath = "//form[@id='userForm']";
@@ -191,7 +190,7 @@ public class MainPage {
     }
 
     public boolean compareHobbies(String expectedHobbies) {
-        List<String> expected = Arrays.asList(expectedHobbies.split(", "));
+        String[] expected = expectedHobbies.split(", ");
         List<String> result = getHobbies();
         for (String hobby : expected) {
             if (result.contains(hobby)) {

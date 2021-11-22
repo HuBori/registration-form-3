@@ -12,9 +12,6 @@ public class PopupWindow {
     private static WebDriver driver;
     private static WebDriverWait wait;
 
-    // Elements
-    private final String popupPath = "//div[@class='modal-dialog modal-lg']";
-
     private final String nameCellPath = "//td[text()='Student Name']//following-sibling::td";
     private final String emailCellPath = "//td[text()='Student Email']//following-sibling::td";
     private final String genderCellPath = "//td[text()='Gender']//following-sibling::td";
@@ -23,10 +20,8 @@ public class PopupWindow {
     private final String addressCellPath = "//td[text()='Address']//following-sibling::td";
     private final String stateAndCityCellPath = "//td[text()='State and City']//following-sibling::td";
 
-    private final String btn = "//button[@id='closeLargeModal']";
-
     public PopupWindow(WebDriver driver) {
-        this.driver = driver;
+        PopupWindow.driver = driver;
         wait = new WebDriverWait(driver, 2);
         //wait.until(ExpectedConditions.elementToBeClickable(By.xpath(btn)));
     }
@@ -60,11 +55,14 @@ public class PopupWindow {
     }
 
     public void close() {
+        String btn = "//button[@id='closeLargeModal']";
         driver.findElement(By.xpath(btn)).click();
     }
 
     public boolean validatePresent(boolean shouldBe) {
         try {
+            // Elements
+            String popupPath = "//div[@class='modal-dialog modal-lg']";
             if (shouldBe) {
                 wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(popupPath)));
             }
